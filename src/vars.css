@@ -1,0 +1,18 @@
+:root {
+    --main-color: #db4747;
+    --main-bg-color: #db4747;
+    --content-text-color: #656e81;      
+    --logo-color: white;
+    --content-bg-color: rgba(238, 238, 238, 1);
+    
+    --field-text-color: white;
+    --site-background:#282c34;
+    --field-text-edit-color: #000;
+    --field-background: white;
+    --site-fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    --font-size-normal: 1em;
+    --font-size-h2: 1.5em;
+    --font-size-h1: 2em;
+}

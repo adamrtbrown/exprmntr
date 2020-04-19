@@ -1,0 +1,11 @@
+version: '3'
+services:
+    dev:
+        image: node:12
+        volumes:
+        - ./src:/usr/src/service
+
+        working_dir: /usr/src/service
+        ports:
+        - 8082:8082
+        command: bash -c "ls && echo "next" && echo && npm install && npm run dev"

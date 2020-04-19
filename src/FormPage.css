@@ -1,0 +1,48 @@
+@import url('./vars.css');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+.form_label {
+  color:white;
+  font-size:var(--font-size-h2);
+}
+.form_section_heading {
+  color:white;
+  font-size:var(--font-size-h1);
+  font-weight:bold;
+}
+.form_label_focus {
+  color:green;
+  font-size:var(--font-size-h2);;
+  font-weight:bold;
+}
+textarea.form_field {
+  width:30em;
+  box-sizing: border-box;
+  resize: none;
+  height:5em;
+}
+textarea.form_field_focus {
+  width:30em;
+  box-sizing: border-box;
+  font-family: var(--site-fonts);
+  font-size:var(--font-size-normal);
+  background:var( --field-background);
+  color: var(--field-text-edit-color);
+  resize:none;
+  height:5em;
+}
+.form_field {
+  font-family: var(--site-fonts);
+  font-size:var(--font-size-normal);
+  background: var(--field-background);
+  color:var(--field-text-edit-color);
+  width: 30em;
+}
+.small {
+  width:5em;
+}
+
+.GoalSection, .ActionSection {
+  color: white;
+  border: 2px solid yellow;
+}

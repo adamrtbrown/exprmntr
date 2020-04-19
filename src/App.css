@@ -1,0 +1,120 @@
+@import url('./vars.css');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+html {
+  font-size:100%;
+}
+
+.App {
+  text-align: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color:var(--main-color);
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color:var(--main-text-color);
+  position:fixed;
+  width:100vw;
+  z-index: 128;
+}
+
+
+.logo {
+  height: auto;
+  font-family:Oswald, arial;
+  color:var(--logo-color);
+  font-weight: 700;
+  font-style:italic;
+  font-size:6vh;
+  padding-left:2vh;
+  position:relative;
+  top: -1vh;
+}
+
+.account {
+  height: auto;
+  margin-left:auto;
+  margin-right:10vmin;
+}
+
+.content > div {
+  padding: 10pt;
+}
+
+.content {
+  position: relative;;
+  top:10vh;
+  bottom:0px;
+  width:auto;
+}
+
+.content_div {
+  position: relative;
+  padding: 0;
+  background-color: var(--content-bg-color);
+}
+.bg_top {
+  position:relative;
+  top:0px;
+  height: 40vh;
+  background-color: var(--content-bg-color);
+  padding: 0;
+}
+.skew_bg {
+  position:relative;
+  top:-20vh;
+  height:120vh;
+  transform: skewY(5deg);
+  background-color: #db4747;
+}
+.scrolly_text {
+  padding:5vh;
+  font-size:5vh;
+  color:var(--content-text-color);
+  overflow: hidden;
+}
+.scrolly_text > .body_header {
+  font-size:7vh;
+  font-weight:500;
+}
+.f1 {
+  z-index:127;
+  min-height:40vh;
+  height:auto;
+  background-image: url("/img1.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.f2 {
+  background-image: url("/img2.jpg");
+  height: 100vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
