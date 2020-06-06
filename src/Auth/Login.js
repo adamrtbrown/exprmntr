@@ -23,7 +23,7 @@ class Login extends React.Component {
 
   render() {
     return (
-    <div> 
+    <div className="AccountContainer"> 
     <GoogleLogin getAuthToken={this.getAuthToken}></GoogleLogin>
     </div>);
   }

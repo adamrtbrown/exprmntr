@@ -1,0 +1,15 @@
+@import url('../../vars.css');
+
+.GoalBig {
+    margin: 1rem;
+    height: 40vh;
+    background: var(--bg-main);
+}
+.GoalBigEdit {
+    border: none;
+    padding: 1rem;
+}
+.FieldTitle {
+    font-size: var(--font-size-h1);
+    color: var(--field-text-color);
+}

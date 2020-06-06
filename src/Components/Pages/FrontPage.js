@@ -1,7 +1,7 @@
 import React from 'react';
 //import './FrontPage.css';
-import GoalForm from './Forms/GoalForm'
-import Language from './tools/language';
+import GoalField from '../../Forms/GoalField'
+import Language from '../../tools/language';
 let L = new Language();
 
 class FrontPage extends React.Component {
@@ -14,7 +14,7 @@ class FrontPage extends React.Component {
     <div className="content">
       <div className="f1">
         <div className="initial_goal">
-          <GoalForm changePage={this.props.changePage} setFormValues={this.props.setFormValues} />
+          <GoalField changePage={this.props.changePage} setFormValues={this.props.setFormValues} />
         </div>
       </div>
       <div className="content_div">

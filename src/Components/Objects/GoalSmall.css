@@ -1,0 +1,17 @@
+@import url('../../vars.css');
+.GoalSmall_container {
+    width:45vw;
+    height:40vh;
+    border:2px solid orange;
+    justify-content: left;
+    display: flex;
+    padding: 1em;
+    background-color: var(--bg-main);
+    border:2px solid orange;
+    color:var(--text-main-color);
+    margin: 1em;
+    width: 100vw;
+}
+.GoalSmallTitle {
+    cursor: pointer;
+}
