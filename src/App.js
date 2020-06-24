@@ -10,6 +10,7 @@ import './App.css';
 import Language from "./tools/language";
 import {FRONTPAGE,DASHBOARDPAGE,GOALPAGE,TREEPAGE,EXPERIMENTPAGE} from './constants.js'
 import SubNav from './Components/Objects/SubNav';
+import Token from './tools/token';
 
 
 let L = new Language();

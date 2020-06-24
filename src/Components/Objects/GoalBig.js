@@ -28,7 +28,6 @@ class GoalBig extends React.Component {
     this.setState({goal: goal});
   }
 
-  save
 
   render() {
     let submit_text = "Save";
