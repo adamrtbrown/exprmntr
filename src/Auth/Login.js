@@ -18,7 +18,7 @@ class Login extends React.Component {
   }
 
   clickHandler(evt) {
-    this.getAuthToken('invalid_tojken', 'test');
+    this.getAuthToken('invalid_token', 'test');
   }
 
   render() {
