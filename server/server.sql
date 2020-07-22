@@ -12,7 +12,7 @@ CREATE TABLE `users` (
 
 DROP TABLE IF EXISTS `goals`;
 CREATE TABLE `goals` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user` int NOT NULL,
   `goal` tinytext NOT NULL,
   `success` tinytext NOT NULL,
@@ -20,3 +20,4 @@ CREATE TABLE `goals` (
   KEY `user` (`user`),
   CONSTRAINT `goals_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+

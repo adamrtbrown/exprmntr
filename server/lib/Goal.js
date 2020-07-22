@@ -1,6 +1,6 @@
-import Bread from './common/Bread';
-import GoalRepository from './GoalRepository';
-import GoalEntity from './GoalEntity';
+import Bread from './common/Bread.js';
+import GoalRepository from './GoalRepository.js';
+import GoalEntity from './GoalEntity.js';
 class Goal extends Bread {
     constructor() {
         super();

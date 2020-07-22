@@ -1,7 +1,7 @@
 import React from 'react';
 import './GoogleLogin.css';
 import Language from '../tools/language';
-import {ReactComponent as AccountIcon} from '../Icons/Account.svg';
+
 let L = new Language();
 
 class GoogleLogin extends React.Component {
@@ -69,7 +69,7 @@ class GoogleLogin extends React.Component {
   render() {
       return (
           <div onClick={this.signIn}>
-              <AccountIcon className="MainIcon" />
+              <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Google Login" />
           </div>
       );
   }

@@ -1,4 +1,4 @@
-import DB from '../../tools/db';
+import DB from '../../tools/db.js';
 class Repository {
     constructor() {
        this.DB = null; 

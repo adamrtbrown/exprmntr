@@ -99,7 +99,7 @@ class App extends React.Component {
                 <div className="Logo">exprmntr</div>
               </div>
             </div>
-            <div className="HeaderRight"><Login /></div>
+            <div className="HeaderRight"><Login L={L} /></div>
           </div>
           <SubNav setPage={this.setPage} actions={this.state.subnav} />
         </header>

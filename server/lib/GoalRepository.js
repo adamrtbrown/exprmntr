@@ -1,5 +1,5 @@
-import Repository from './common/Repository';
-import GoalEntity from './GoalEntity';
+import Repository from './common/Repository.js';
+import GoalEntity from './GoalEntity.js';
 
 class GoalRepository extends Repository {
     constructor() {

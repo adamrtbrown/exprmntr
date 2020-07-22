@@ -14,7 +14,7 @@ class Request {
             url: process.env.REACT_APP_API_URL + url,
             withCredentials: true,
             headers: {
-                'Bearer': this.T.access
+                'Authorization': "Bearer " + this.T.access
             } 
         }
         if(String(method).toUpperCase() === "GET") {
