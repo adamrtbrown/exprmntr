@@ -1,6 +1,6 @@
 import React from 'react';
 import './GoogleLogin.css';
-import Language from '../tools/language';
+import Language from '../../src/tools/language';
 
 let L = new Language();
 
@@ -9,6 +9,7 @@ class GoogleLogin extends React.Component {
   constructor(props) {
       super(props);
       this.signIn = this.signIn.bind(this);
+      
   }
 
   componentDidMount() {
@@ -40,7 +41,7 @@ class GoogleLogin extends React.Component {
           name: profile.getName()
       };
       console.log(user, id_token, expires_at);
-      this.props.getAuthToken(id_token, 'google');
+      
       
   }
 

@@ -1,4 +1,6 @@
 @import url('./vars.css');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
 body {
   margin: 0;
   font-family: var(--site-fonts);
@@ -7,7 +9,42 @@ body {
   background: var(--site-background);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* HEADER */ 
+header {
+  background-color:var(--main-color);
+  height: 5rem;
+  display: flex;
+  flex-direction: row; 
+  color:var(--text-main-color);
+  border:none;
+}
+header div {
+  flex:1;
+}
+.Logo {
+  height: auto;
+  font-family:Oswald, arial;
+  color:var(--logo-color);
+  font-weight: 700;
+  font-style:italic;
+  font-size:3em;
+  padding-left: 0.5em;
+  border:none;
+  display:flex;
+}
+.Account {
+  color: white;
+  text-decoration:none;
+  font-size:calc(10px + 1vmin);
+}
+.Icon {
+  width:2rem;
+  height:2rem;
+  cursor:pointer;
+  fill:var(--text-main-color);
+  object-fit:cover;
+  border-radius:50%;
+}
+.LoginButton {
+  cursor:pointer;
 }

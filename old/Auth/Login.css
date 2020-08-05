@@ -1,0 +1,22 @@
+.Login {
+    margin: 2em;
+}
+.Header .Login .FederatedOptions {
+    position:absolute;
+    margin:0.5em;
+    background-color: var(--bg-main);
+    border: 2px solid var(--nav-color);
+    right:0em;
+    padding: 1em;
+    border-radius:0.5em;
+}
+.Login-link {
+    color: white;
+    cursor:pointer;
+    text-decoration:none;
+    font-size:calc(10px + 1vmin);
+    cursor:pointer;
+}
+.Login-link:hover {
+    text-decoration:underline;
+}

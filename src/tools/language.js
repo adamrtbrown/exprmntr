@@ -12,9 +12,15 @@ let lang = {
     }
   },
   "LOGIN_TEXT" : {
-    context: "",
+    context: "Login action link",
     en: {
       CA: "Login"
+    }
+  },
+  "GOOGLE_LOGIN" : {
+    context: "Alt text for Google Login button image",
+    en: {
+      CA: "Google Login"
     }
   },
   "NEXT" : {
@@ -93,9 +99,9 @@ let lang = {
 
 class Language {
   constructor() {
-    this.default_language = process.env.REACT_APP_DEFAULT_LANGUAGE;
+    //this.default_language = process.env.REACT_APP_DEFAULT_LANGUAGE;
     this.current_language = this.default_language;
-    this.default_locale = process.env.REACT_APP_DEFAULT_LOCALE;
+    //this.default_locale = process.env.REACT_APP_DEFAULT_LOCALE;
     this.current_locale = this.default_locale;
     
   }

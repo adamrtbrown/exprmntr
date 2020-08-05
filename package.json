@@ -5,11 +5,11 @@
   "type": "module",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.1",
+    "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "ABCIAM": "file:../abciam/src",
-    "aws-amplify": "^2.2.6",
-    "aws-amplify-react": "^3.1.7",
+    "aws-amplify": "^2.3.0",
+    "aws-amplify-react": "^3.1.9",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -17,8 +17,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-scripts": "3.4.0"
   },
   "scripts": {
@@ -26,7 +26,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "npm run build && node --experimental-modules server/server.mjs"
+    "server": "npm run build && node --experimental-modules server/server.mjs",
+    "new": "node --experimental-modules server/server.mjs"
   },
   "eslintConfig": {
     "extends": "react-app"

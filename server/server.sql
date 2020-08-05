@@ -21,3 +21,9 @@ CREATE TABLE `goals` (
   CONSTRAINT `goals_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DROP TABLE IF EXISTS `signing_keys`;
+CREATE TABLE `signing_keys` (
+  `id` int NOT NULL,
+  `latest` varchar(4096) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `previous` varchar(4096) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

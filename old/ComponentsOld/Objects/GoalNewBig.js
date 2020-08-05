@@ -1,6 +1,6 @@
 import React from 'react';
 import './GoalNewBig.css';
-import Language from '../../tools/language';
+import Language from '../../../src/tools/language';
 import {ReactComponent as AddIcon} from '../../Icons/Add.svg'
 let L = new Language();
 
