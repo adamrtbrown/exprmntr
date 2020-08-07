@@ -34,6 +34,14 @@ class DB {
           console.log("Creating connection");
           this.conn = await this.createConnection();
           console.log("Connection created");
+          this.conn.on('error', (err)=>{
+            if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+              console.log("connection closed");
+              this.conn = false;
+            } else {
+              throw err;
+            }
+          });
         } catch(err) {
           console.log("DB Connection Error: ", err);
           throw err;

@@ -41,7 +41,7 @@ let lang = {
       CA: "Become a pro athlete, paint like Bob Ross..."
     }
   },
-  "GOAL_SUCCESS_INPUT" : {
+  "GOAL_SUCCESS_INSTRUCTIONS" : {
     context: "",
     en: {
       CA: "When achieved, describe what success looks like."
@@ -53,10 +53,10 @@ let lang = {
       CA: "I'll be at center court..."
     }
   },
-  "GOAL_METRIC_INPUT" : {
+  "GOAL_METRIC_INSTRUCTIONS" : {
     context: "",
     en: {
-      CA: "If you were to measure success, what is the total and the metric?"
+      CA: "What will you measure? Describe it in one word.  What it the total you're aiming for?"
     }
   },
   "TOTAL" : {
@@ -87,6 +87,18 @@ let lang = {
     context: "",
     en: {
       CA: "1,000,000"
+    }
+  },
+  "CREATE_GOAL" : {
+    context: "",
+    en: {
+      CA: "Create Goal"
+    }
+  },
+  "NO_GOALS" : {
+    context: "",
+    en: {
+      CA: "You haven't created a goal yet."
     }
   },
   "LORUM_IPSUM" : {

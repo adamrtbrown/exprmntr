@@ -6,16 +6,17 @@ class Goal extends Bread {
         super();
         this.repository = null;
         this.experimentList = null;
+        this.metricList = null;
     }
 
-    createNew(goal, success) {
-        let entity = new GoalEntity({user: user, goal: goal, success: success});
+    createNew(user, title, success, metrics) {
+        let entity = new GoalEntity({user: user, title: title, success: success, metrics: metrics});
         entity = this.repo.add(entity);
         return entity;
     }
 
-    editGoal(id, goal, success) {
-        let entity = new GoalEntity({id:id, user:user, goal: goal, success: success});
+    editGoal(id, user, title, success, metrics) {
+        let entity = new GoalEntity({id:id, user:user, title: title, success: success, metrics: metrics});
         entity = this.repo.edit(entity);
         return entity;
     }
@@ -31,6 +32,13 @@ class Goal extends Bread {
             this.experimentList = [];
         }
         return this.experimentList;
+    }
+    get metrics() {
+        if(this.metrics === null) {
+            //get experiments
+            this.metrics = [];
+        }
+        return this.metrics;
     }
 
 

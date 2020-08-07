@@ -8,14 +8,13 @@ import jwt from 'jsonwebtoken';
 import DB from './tools/db.js';
 
 let env = dotenv.config({path: './server/.env'});
-console.log("env", env);
 let port = process.env.SERVER_PORT;
 let app = express();
 let accessExpiry = 60 * 30;
 let signing_key = null;
 
 app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use(function (req, res, next) {
   if (req.query) {
@@ -37,16 +36,15 @@ app.use(function(req, resp, next){
 })
 
 app.use(async function (req, res, next) {
-  console.log("Token Security");
   let token_header = req.get("Authorization");
-  let token = String(token_header).split(" ");
-  console.log("Token: ", token, token_header);
+  let token = String(token_header).split(" ")[1];
   let key = await getSigningKey();
   try {
     var decoded = jwt.verify(token, key, {algorithms: ['HS256']});
-    app.token_claims = decoded;
+    req.token_claims = decoded;
   } catch(err) {
-    app.token_claims = false;
+    console.log("Invalid token");
+    req.token_claims = false;
   }
   next();
 });
@@ -88,20 +86,23 @@ app.delete('/token', async function(req, res) {
     url: process.env.ABCIAM_URL
   }
   let abc = new ABCIAMAppServer(config);
-  await abc.logout(req.body.token, req.body.all === "all");
+  await abc.logout(req.body.token, req.body.all);
   res.end();
 });
 
 app.post('/goal', function(req, res){
   let data = req.body;
+  console.log("GOAL", req.body)
   //Add Security here
   //Add access control here
   let entity = null;
   let goal = new Goal();
+  console.log("GOAL TOKEN CLAIMS",  req.token_claims);
+  let user = req.token_claims.user
   if(data.id) { 
-    entity = goal.editGoal(data.id, data.user, data.goal, data.success);
+    entity = goal.editGoal(data.id, user, data.title, data.success, data.metrics);
   } else {
-    entity = goal.createNew(data.user, data.goal, data.success);
+    entity = goal.createNew(user, data.title, data.success, data.metrics);
   } 
   res.json({id: entity.id});
 

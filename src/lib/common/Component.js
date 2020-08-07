@@ -1,6 +1,6 @@
 import Language from "../../tools/language.js";
 class Component {
-    constructor(props) {
+    constructor(application) {
         /*
         this.testVariableValue = "";
         this.testVariableNode = null;
@@ -8,6 +8,7 @@ class Component {
         this.L = new Language();
         this.L.setLanguage("en","CA");
         this.node = null;
+        this.app = application;
     }
     /*
     set testVariable(value) {
@@ -25,7 +26,7 @@ class Component {
     init(){
         console.log("parent init");
     }
-    
+
     get html() {
         return ` `;
     }

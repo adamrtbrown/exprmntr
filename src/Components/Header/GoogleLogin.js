@@ -1,10 +1,9 @@
 import Component from "../../lib/common/Component.js";
 class GoogleLogin extends Component{
-    constructor() {
-        super();
+    constructor(app) {
+        super(app);
         this.googleAltText = this.L.t("GOOGLE_LOGIN");
         this.parentComponent = null;
-        this.authObject = null;
         this.gauth = null;
         this.initNode();
     }
@@ -16,18 +15,11 @@ class GoogleLogin extends Component{
     get html() {
         return `
 
-        <div class="LoginButton">
+        <div class="LoginButton" tabindex="0">
             <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="${this.googleAltText}" />
         </div>
 
         `.trim();
-    }
-
-    set auth(auth) {
-        this.authObject = auth;
-    }
-    get auth(){
-        return this.authObject;
     }
 
     set ga(gauth) {
@@ -61,7 +53,7 @@ class GoogleLogin extends Component{
             email: profile.getEmail(),
             name: profile.getName()
         };
-        await this.auth.login(id_token, 'google');
+        await this.app.auth.login(id_token, 'google');
         this.node.dispatchEvent(new CustomEvent("auth",{bubbles:true}));
     }
 
@@ -98,8 +90,12 @@ class GoogleLogin extends Component{
                 () => {
                     this.ga = gauth;
                     if(gauth.isSignedIn.get()) {
-                        let e = new CustomEvent("auth", {bubbles:true});
-                        this.node.dispatchEvent(e);
+                        if(this.app.auth.isLoggedIn) {
+                            let e = new CustomEvent("auth", {bubbles:true});
+                            this.node.dispatchEvent(e);
+                        } else {
+                            this.getABCIAMCredentials(gauth.currentUser.get());
+                        }
                     }
                 }
             );
