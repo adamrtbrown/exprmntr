@@ -1,11 +1,9 @@
 import Repository from './common/Repository';
 import Entity from './GoalEntity';
-import Request from '../tools/request';
-import GoalEntity from './GoalEntity';
 class GoalRepository extends Repository {
     constructor() {
         super();
-        this.R = new Request();
+        this.requestObject = null;
         this.endpoint = "/goal";
     }
     browse(filter) {
@@ -38,6 +36,8 @@ class GoalRepository extends Repository {
         let response = this.R.request("DELETE", this.endpoint, id);
         return false;
     }
+
+    
     
 }
 export default GoalRepository;

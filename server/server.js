@@ -35,8 +35,15 @@ app.use(function(req, resp, next){
 
 app.use(async function (req, res, next) {
   let token_header = req.get("Authorization");
+  let server = new Server(server_config);
+  if(!token_header && server.routeSecurity(req.originalUrl)) {
+    console.log("No Auth token");
+    res.send("Unauthorized", 404);
+    res.end();
+    return;
+  }
   let token = String(token_header).split(" ")[1];
-  let key = await getSigningKey();
+  let key = await server.getSigningKey();
   try {
     var decoded = jwt.verify(token, key, {algorithms: ['HS256']});
     req.token_claims = decoded;
@@ -57,26 +64,32 @@ app.get('/test', function(req, res){
 });
 app.get('/token', async function(req, res) {
   let server = new Server(server_config);
-  res.json(server.getToken(req));
+  let response = await server.getToken(req);
+  console.log("GET TOKEN DONE: ", response);
+  res.json(response);
 });
 app.post('/token', async function(req, res) {
   let server = new Server(server_config);
-  res.json(server.getToken(req));
+  res.json(await server.postToken(req));
 });
 app.delete('/token', async function(req, res) {
   let server = new Server(server_config);
-  server.deleteToken(req);
+  await server.deleteToken(req);
   res.end();
 });
 
-app.post('/goal', function(req, res){
+app.post('/goal', async function(req, res){
   let server = new Server(server_config);
-  res.json(server.postGoal(req));
+  res.json(await server.postGoal(req));
 });
 
-app.get('/goal', function(req, res) {
+app.get('/goal', async function(req, res) {
   let server = new Server(server_config);
-  res.json(server.getGoal(req));
+  res.json(await server.getGoal(req));
 });
 
 app.listen(port, () => console.log(`Listening on ${port}`));
+
+function log(msg) {
+  console.log("SERVER: ", msg)
+}

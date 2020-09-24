@@ -12,6 +12,8 @@ class Account extends Component {
 
         this.federatedNode = null;
         this.userOptionsNode = null;
+        this.accountIconNode = null;
+        this.imageIconNode = null;
 
         this.authState = {
             auth: false,
@@ -31,17 +33,23 @@ class Account extends Component {
     }
 
     init() {
-        this.node.addEventListener("auth", (e) => {this.updateAuthState();});
+        //this.node.addEventListener("auth", (e) => {this.updateAuthState();});
 
         this.setupFederatedOptions();
         this.userOptionsNode = this.node.childNodes[2];
         this.hideOptions();
-
+        this.accountIconNode = this.node.firstChild;
+        this.imageIconNode = document.createElement("img");
+        this.imageIconNode.className = "Icon";
+        this.imageIconNode.addEventListener("error", (e) => {
+            this.node.replaceChild(this.accountIconNode, this.imageIconNode);
+        });
         this.node.addEventListener("mousedown", (e) => {this.showOptions(e);});
         this.node.addEventListener("focusout", (e) => {console.log("out account"); this.focusOut();});
         this.node.addEventListener("focusin", (e) => {console.log("in account"); this.focusIn();});
         
         this.userOptionsNode.childNodes[1].addEventListener("click", (e)=>{this.logout(e);});
+        this.updateAuthState();
     }
 
     focusOut() {
@@ -56,46 +64,47 @@ class Account extends Component {
         this.focused = true;
         this.showOptions();
     }
-    updateAuthState() {
+    async updateAuthState() {
         if(!this.app.auth || !this.googleLogin.ga) {
+            console.log("updateAuthState: No auth or google, returning");
             return;
         }
-        this.hideOptions();
-        this.authState.auth = this.app.auth.isLoggedIn;
-        if(this.app.auth.provider === "google") {
-            let user = this.googleLogin.ga.currentUser.get();
-            let profile = user.getBasicProfile();
-            let authResponse = user.getAuthResponse();
-            this.authState.provider = "google";
-            this.authState.id_token = authResponse.id_token;
-            this.authState.image_url = profile.getImageUrl();
-            this.authState.email = profile.getEmail();
-            this.authState.name = profile.getName();
-            this.optionsVisible = false;
+        if (this.app.auth.isLoggedIn) {
+            console.log("updateAuthState: Auth is logged in.");
+            this.setLoggedInState();
+        } else {
+            console.log("updateAuthState: Auth is not logged in");
+            if (this.googleLogin.ga) {
+                console.log("updateAuthState: using google to get a token");
+                let googleUser = this.googleLogin.ga.currentUser.get();
+                const { id_token, expires_at } = googleUser.getAuthResponse();
+                await this.app.auth.login(id_token, 'google');
+                this.setLoggedInState();
+            }
         }
-        let img = document.createElement("img");
-        img.className = "Icon";
-        img.src = this.authState.image_url;
-        AccountIcon = this.node.replaceChild(img, this.node.firstChild);
-        img.onerror = () => {this.node.replaceChild(AccountIcon, img);}
-        this.app.page = this.app.DASHBOARD_PAGE;
+        this.hideOptions();
     }
 
+    setLoggedInState() {
+        console.log("setting logged in state");
+        this.app.page = this.app.DASHBOARD_PAGE;
+        if (this.googleLogin.ga) {
+            console.log("updateAuthState: we have a google");
+            let user = this.googleLogin.ga.currentUser.get();
+            let profile = user.getBasicProfile();
+            this.imageIconNode.src = profile.getImageUrl();
+            this.node.replaceChild(this.imageIconNode, this.node.firstChild);
+        }
+    }
+    
     logout(e) {
         console.log("logout");       
-        if(this.authState.provider === "google") {
+        if(this.googleLogin.ga) {
             this.googleLogin.signOut();
         }
         this.app.auth.logout(true);
-        this.authState = {
-            auth: false,
-            provider: null,
-            id_token: null,
-            image_url: null,
-            email: null,
-            name: null,    
-        }
-        this.node.replaceChild(AccountIcon,this.node.firstChild);
+        
+        this.node.replaceChild(this.accountIconNode, this.node.firstChild);
         this.app.page = this.app.FRONT_PAGE;
         setTimeout(() => {this.hideOptions();}, 1);
     }
@@ -109,7 +118,8 @@ class Account extends Component {
            return; 
         }
         this.optionsVisible = true;
-        if(this.authState.auth) {
+        console.log("visible",this.app.auth.isLoggedIn);
+        if(this.app.auth.isLoggedIn) {
             this.userOptionsNode.style.display = null;
         } else {
             this.federatedNode.style.display = null;

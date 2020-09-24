@@ -1,4 +1,8 @@
 class Repository {
+    constructor() {
+        this.client = null;
+    }
+
     browse(filter) {
         return false;
     }
@@ -14,5 +18,10 @@ class Repository {
     delete(id) {
         return false;
     }
+
+    set client(client) {
+        this.client = client;
+    }
+
 }
 export default Repository;

@@ -41,12 +41,15 @@ class Goal extends Bread {
         return this.metrics;
     }
 
-
     get repo() {
         if(this.repository === null) {
             this.repository = new GoalRepository();
         }
         return this.repository;
+    }
+
+    set client(client) {
+        this.repo.client = client;
     }
 
 }

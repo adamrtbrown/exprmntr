@@ -10,6 +10,7 @@ class Server {
             app_secret: (server_config.app_secret) ? server_config.app_secret : null,
             url: (server_config.url) ? server_config.url : null, 
         }
+        this.signing_key = null;
     }
 
     set config(config) {
@@ -20,17 +21,17 @@ class Server {
     }
 
     async getToken(req){
-        console.log("Getting token", req.body, req.query,"\n\n");
+        console.log("Getting token");
         try {
             let config = {
-            app_id: process.env.ABCIAM_APP_ID,
-            app_secret:process.env.ABCIAM_APP_SECRET,
-            url: process.env.ABCIAM_URL
+                app_id: process.env.ABCIAM_APP_ID,
+                app_secret:process.env.ABCIAM_APP_SECRET,
+                url: process.env.ABCIAM_URL
             }
             let abc = new ABCIAMAppServer(this.abciam_config);
             let refreshToken = await abc.login(req.body.id_token, req.body.provider);
             let decoded = jwt.decode(refreshToken);
-            let expiry = Math.round(new Date().getTime() / 1000) + accessExpiry;
+            let expiry = Math.round(new Date().getTime() / 1000) + Number(process.env.ACCESS_EXPIRY);
             let accessToken = await this.createToken({user: decoded.user}, expiry);
             
             let retvar = {'refreshToken': refreshToken, 'accessToken': accessToken};
@@ -63,26 +64,42 @@ class Server {
         let entity = null;
         let goal = new Goal();
         let user = req.token_claims.user
-        if(data.id) { 
-            entity = goal.editGoal(data.id, user, data.title, data.success, data.metrics);
-        } else {
-            entity = goal.createNew(user, data.title, data.success, data.metrics);
+        try{
+            if(data.id) { 
+                entity = goal.editGoal(data.id, user, data.title, data.success);
+            } else {
+                entity = goal.createNew(user, data.title, data.success);
+            }  
+            return {id: entity.id}
+        } catch (err) {
+            console.log("There was an error POSTing the goal.");
         }
-        return {id: entity.id}
+        return "error";
     }
 
     async createToken(claims, expirySeconds) {
         claims.exp = expirySeconds;
-        signing_key = await this.getSigningKey();
+        let signing_key = await this.getSigningKey();
         let token = jwt.sign(claims, signing_key, {algorithm: 'HS256'});
         return token;
       }
     async getSigningKey() {
         let db = new DB();
-        if(signing_key === null) {
+        if(this.signing_key === null) {
             let result = await db.query('SELECT `latest` FROM `signing_keys` LIMIT 1');
-            signing_key = result.results[0].latest;
+            this.signing_key = result.results[0].latest;
         }
-        return signing_key;
+        return this.signing_key;
+    }
+
+    routeSecurity(route) {
+        const routes = [
+            "/"
+        ];
+        if(routes.includes(route)) {
+            return true;
+        }
+        return false;
     }
 }
+export default Server;
