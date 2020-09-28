@@ -1,30 +1,30 @@
 class Request {
   constructor() {
-    this.tokenRaw = null;
-  }
-
-  get token() {
-    return this.tokenRaw;
-  }
-  set token(token){
-    this.tokenRaw = token;
+    this.authObject = null;
   }
   
-  async request(config) {
-    if (!this.isTokenExpired(this.refreshToken)) {
-        console.log("refresh is not expired")
-        if(this.isTokenExpired(this.accessToken) || this.isTokenExpired(this.refreshToken, 30 * 60)) {
-            await this.refresh();
-        }
-    } else {
-        console.log("refresh is expired. logging out");
-        this.logout();
-    }
-    
+  get auth() {
+    if(this.authObject !== null) {
+      return this.authObject;
+    } 
+    return {accessToken: null}
+  }
+
+  set auth(authObject) {
+    this.authObject = authObject;
+  }
+
+  async send(config) {
     if(!config.headers){
-        config.headers = {'Content-Type': 'application/json'};
+      config.headers = {'Content-Type': 'application/json'};
     }
-    config.headers.Authorization = "Bearer " + this.accessToken;
+    if(config.authRequired !== false) {
+      let accessToken = this.auth.accessToken;
+      if (!accessToken) {
+        throw new Error("Request: Error, no access token.");
+      }
+      config.headers.Authorization = "Bearer " + accessToken;
+    }
     
     let url = this.serverURL + config.url;
     console.log("Fetching: ", url, config);

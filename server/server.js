@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(cors());
-app.use(express.static('src'));
+app.use(express.static('web'));
 
 app.use(function(req, resp, next){
   console.log("Request: ", req.method, req.originalUrl);

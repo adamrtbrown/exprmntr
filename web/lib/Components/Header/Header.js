@@ -1,4 +1,4 @@
-import Component from "../../lib/common/Component.js";
+import Component from "../../common/Component.js";
 import Account from "./Account.js";
 
 class Header extends Component {

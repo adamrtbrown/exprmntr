@@ -1,9 +1,9 @@
 import Component from "./lib/common/Component.js";
-import Header from "./Components/Header/Header.js";
-import Nav from "./Components/Header/Nav.js";
-import FrontPage from './Components/Pages/FrontPage.js'
-import DashboardPage from './Components/Pages/DashboardPage.js'
-import GoalPage from "./Components/Pages/GoalPage.js";
+import Header from "./lib/Components/Header/Header.js";
+import Nav from "./lib/Components/Header/Nav.js";
+import FrontPage from './lib/Pages/FrontPage.js'
+import DashboardPage from './lib/Pages/DashboardPage.js'
+import GoalPage from "./lib/Pages/GoalPage.js";
 
 const FRONT_PAGE = 1;
 const DASHBOARD_PAGE = 2;
@@ -23,6 +23,7 @@ class App extends Component{
         this.pageState = FRONT_PAGE;
         this.authObject = null;
         this.currentChildPageNode = null;
+        
         this.initNode();
     }
     
@@ -34,6 +35,7 @@ class App extends Component{
     get GOAL_PAGE() {return GOAL_PAGE;}
 
     init() {
+
         this.node.appendChild(this.header.node);
         this.node.appendChild(this.nav.node);
         this.node.appendChild(this.frontPage.node);

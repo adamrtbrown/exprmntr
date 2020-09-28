@@ -94,7 +94,7 @@ class Server {
 
     routeSecurity(route) {
         const routes = [
-            "/"
+            "/goal"
         ];
         if(routes.includes(route)) {
             return true;

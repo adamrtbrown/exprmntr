@@ -1,4 +1,4 @@
-import Component from "../../lib/common/Component.js";
+import Component from "../common/Component.js";
 
 class GoalPage extends Component {
     constructor(app) {

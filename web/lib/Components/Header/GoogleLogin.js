@@ -1,4 +1,4 @@
-import Component from "../../lib/common/Component.js";
+import Component from "../../common/Component.js";
 class GoogleLogin extends Component{
     constructor(app) {
         super(app);
