@@ -11,7 +11,13 @@ let app = express();
 let accessExpiry = 60 * 30;
 let signing_key = null;
 
-app.use(bodyParser.urlencoded({extended:false}));
+let server_config = {
+  app_id: process.env.ABCIAM_APP_ID,
+  app_secret: process.env.ABCIAM_APP_SECRET,
+  url: process.env.ABCIAM_URL
+}
+
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
 
 app.use(function (req, res, next) {
@@ -34,31 +40,14 @@ app.use(function(req, resp, next){
 })
 
 app.use(async function (req, res, next) {
-  let token_header = req.get("Authorization");
   let server = new Server(server_config);
-  if(!token_header && server.routeSecurity(req.originalUrl)) {
-    console.log("No Auth token");
-    res.send("Unauthorized", 404);
-    res.end();
-    return;
+  let passed = await server.tokenSecurity(req, res);
+  if(passed) {
+    next();
   }
-  let token = String(token_header).split(" ")[1];
-  let key = await server.getSigningKey();
-  try {
-    var decoded = jwt.verify(token, key, {algorithms: ['HS256']});
-    req.token_claims = decoded;
-  } catch(err) {
-    console.log("Invalid token");
-    req.token_claims = false;
-  }
-  next();
 });
 
-let server_config = {
-  app_id: process.env.ABCIAM_APP_ID,
-  app_secret: process.env.ABCIAM_APP_SECRET,
-  url: process.env.ABCIAM_URL
-}
+
 app.get('/test', function(req, res){
   res.json({test:1});
 });
@@ -69,8 +58,10 @@ app.get('/token', async function(req, res) {
   res.json(response);
 });
 app.post('/token', async function(req, res) {
+  console.log("server file", res.body)
   let server = new Server(server_config);
-  res.json(await server.postToken(req));
+  let response = await server.postToken(req)
+  res.json(response);
 });
 app.delete('/token', async function(req, res) {
   let server = new Server(server_config);
@@ -83,7 +74,8 @@ app.post('/goal', async function(req, res){
   res.json(await server.postGoal(req));
 });
 
-app.get('/goal', async function(req, res) {
+app.get('/goal/:goal_id', async function(req, res) {
+  console.log("Goal ID:", req.params.goal_id);
   let server = new Server(server_config);
   res.json(await server.getGoal(req));
 });

@@ -1,7 +1,7 @@
 import Component from "../common/Component.js";
 class FrontPage extends Component{
-    constructor(app) {
-        super(app);
+    constructor(parent) {
+        super(parent);
         this.initNode();
     }
     

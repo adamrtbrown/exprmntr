@@ -4,6 +4,7 @@ class Request {
   }
   
   get auth() {
+    console.log("auth", this.authObject);
     if(this.authObject !== null) {
       return this.authObject;
     } 
@@ -19,16 +20,17 @@ class Request {
       config.headers = {'Content-Type': 'application/json'};
     }
     if(config.authRequired !== false) {
-      let accessToken = this.auth.accessToken;
+      let accessToken = await this.auth.accessToken;
       if (!accessToken) {
         throw new Error("Request: Error, no access token.");
       }
       config.headers.Authorization = "Bearer " + accessToken;
     }
     
-    let url = this.serverURL + config.url;
+    let url = config.url;
     console.log("Fetching: ", url, config);
     let response = await fetch(url, config);
     return response;
   }
 }
+export default Request;

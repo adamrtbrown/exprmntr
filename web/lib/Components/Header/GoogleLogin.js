@@ -1,9 +1,8 @@
 import Component from "../../common/Component.js";
 class GoogleLogin extends Component{
-    constructor(app) {
-        super(app);
-        this.googleAltText = this.L.t("GOOGLE_LOGIN");
-        this.parentComponent = null;
+    constructor(parent) {
+        super(parent);
+        this.googleAltText = this.t("GOOGLE_LOGIN");
         this.gauth = null;
         this.initNode();
     }
@@ -34,7 +33,7 @@ class GoogleLogin extends Component{
         try {
             let googleUser = await this.ga.signIn(); 
             const { id_token, expires_at } = googleUser.getAuthResponse();
-            await this.parentComponent.updateAuthState();
+            await this.parent.updateAuthState();
         } catch(err) {
             console.log("Exception", err);
         };
@@ -43,9 +42,6 @@ class GoogleLogin extends Component{
     signOut() {
         console.log("Google logout");
         this.ga.signOut();
-    }
-    async getABCIAMCredentials(googleUser) {
-        
     }
 
     initGoogle() {
@@ -71,7 +67,6 @@ class GoogleLogin extends Component{
         // init the Google SDK client
         const g = window.gapi;
         g.load('auth2', async () => {
-            console.log("initGapi", this)
             g.auth2.init({
                 client_id: window.env.GOOGLE_APP_ID,
                 // authorized scopes
@@ -80,7 +75,7 @@ class GoogleLogin extends Component{
             let gauth = await g.auth2.getAuthInstance();
             this.ga = gauth;
             if(gauth.isSignedIn.get()) {
-                this.parentComponent.updateAuthState();
+                this.parent.updateAuthState();
             }
             
         });

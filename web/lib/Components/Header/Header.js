@@ -2,9 +2,9 @@ import Component from "../../common/Component.js";
 import Account from "./Account.js";
 
 class Header extends Component {
-    constructor(app) {
-        super(app);
-        this.account = new Account(app);
+    constructor(parent) {
+        super(parent);
+        this.account = new Account(this);
         this.authObject = null;
         this.initNode();
     }

@@ -8,11 +8,6 @@ class DB {
   async createConnection() {
     return new Promise(
       (resolve, reject) => {
-        console.log("Creating connection: ",{
-          host: process.env.DB_HOST,
-          user: process.env.DB_USER,
-          password: process.env.DB_PASSWORD
-        });
         var conn = mysql.createConnection({
           host: process.env.DB_HOST,
           user: process.env.DB_USER,
@@ -31,12 +26,10 @@ class DB {
     return new Promise(async (resolve) => {
       if(this.conn === false) {
         try {
-          console.log("Creating connection");
           this.conn = await this.createConnection();
-          console.log("Connection created");
           this.conn.on('error', (err)=>{
             if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-              console.log("connection closed");
+              console.log("Connection closed");
               this.conn = false;
             } else {
               throw err;
@@ -66,10 +59,6 @@ class DB {
         });
       });
     });
-  }
-
-  log(message){
-    console.log(message)
   }
 }
 

@@ -3,11 +3,11 @@ import GoogleLogin from "./GoogleLogin.js";
 let AccountIcon = `<svg class="Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>`;
 
 class Account extends Component {
-    constructor(app) {
-        super(app);
-        this.loginText = this.L.t("LOGIN_TEXT");
+    constructor(parent) {
+        super(parent);
+        this.loginText = this.t("LOGIN_TEXT");
         
-        this.googleLogin = new GoogleLogin(app);
+        this.googleLogin = new GoogleLogin(this);
         this.googleLogin.parentComponent = this;
 
         this.federatedNode = null;
@@ -17,7 +17,6 @@ class Account extends Component {
 
         this.authState = {
             auth: false,
-            provider: null,
             id_token: null,
             image_url: null,
             email: null,
@@ -33,8 +32,6 @@ class Account extends Component {
     }
 
     init() {
-        //this.node.addEventListener("auth", (e) => {this.updateAuthState();});
-
         this.setupFederatedOptions();
         this.userOptionsNode = this.node.childNodes[2];
         this.hideOptions();
@@ -45,8 +42,8 @@ class Account extends Component {
             this.node.replaceChild(this.accountIconNode, this.imageIconNode);
         });
         this.node.addEventListener("mousedown", (e) => {this.showOptions(e);});
-        this.node.addEventListener("focusout", (e) => {console.log("out account"); this.focusOut();});
-        this.node.addEventListener("focusin", (e) => {console.log("in account"); this.focusIn();});
+        this.node.addEventListener("focusout", (e) => { this.focusOut();});
+        this.node.addEventListener("focusin", (e) => { this.focusIn();});
         
         this.userOptionsNode.childNodes[1].addEventListener("click", (e)=>{this.logout(e);});
         this.updateAuthState();
@@ -66,19 +63,15 @@ class Account extends Component {
     }
     async updateAuthState() {
         if(!this.app.auth || !this.googleLogin.ga) {
-            console.log("updateAuthState: No auth or google, returning");
             return;
         }
         if (this.app.auth.isLoggedIn) {
-            console.log("updateAuthState: Auth is logged in.");
             this.setLoggedInState();
         } else {
-            console.log("updateAuthState: Auth is not logged in");
             if (this.googleLogin.ga) {
-                console.log("updateAuthState: using google to get a token");
                 let googleUser = this.googleLogin.ga.currentUser.get();
                 const { id_token, expires_at } = googleUser.getAuthResponse();
-                await this.app.auth.login(id_token, 'google');
+                await this.app.auth.login(id_token);
                 this.setLoggedInState();
             }
         }
@@ -87,7 +80,7 @@ class Account extends Component {
 
     setLoggedInState() {
         console.log("setting logged in state");
-        this.app.page = this.app.DASHBOARD_PAGE;
+        this.root.page = DASHBOARD_PAGE;
         if (this.googleLogin.ga) {
             console.log("updateAuthState: we have a google");
             let user = this.googleLogin.ga.currentUser.get();
@@ -105,7 +98,7 @@ class Account extends Component {
         this.app.auth.logout(true);
         
         this.node.replaceChild(this.accountIconNode, this.node.firstChild);
-        this.app.page = this.app.FRONT_PAGE;
+        this.root.page = FRONT_PAGE;
         setTimeout(() => {this.hideOptions();}, 1);
     }
     setupFederatedOptions() {
@@ -118,7 +111,6 @@ class Account extends Component {
            return; 
         }
         this.optionsVisible = true;
-        console.log("visible",this.app.auth.isLoggedIn);
         if(this.app.auth.isLoggedIn) {
             this.userOptionsNode.style.display = null;
         } else {

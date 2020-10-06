@@ -1,8 +1,8 @@
 import Component from "../common/Component.js";
 
 class GoalPage extends Component {
-    constructor(app) {
-        super(app);
+    constructor(parent) {
+        super(parent);
 
         this.goal = {
             id: -1,
@@ -15,10 +15,10 @@ class GoalPage extends Component {
     get html() {
         return `
         <div class="ContentPage GoalPage">
-            <div class="GoalInstructions">${this.L.t("MAIN_PAGE_BODY_TEXT")}</div> 
-            <div class="GoalTitleDiv"><input class="GoalTitleEdit" type="text" placeholder="${this.L.t("GOAL_INPUT_PLACEHOLDER")}" /></div>
-            <div class="GoalInstructions">${this.L.t("GOAL_SUCCESS_INSTRUCTIONS")}</div>  
-            <div class="GoalSuccessDiv"><textarea placeholder="${this.L.t("GOAL_SUCCESS_PLACEHOLDER")}"></textarea></div>
+            <div class="GoalInstructions">${this.t("MAIN_PAGE_BODY_TEXT")}</div> 
+            <div class="GoalTitleDiv"><input class="GoalTitleEdit" type="text" placeholder="${this.t("GOAL_INPUT_PLACEHOLDER")}" /></div>
+            <div class="GoalInstructions">${this.t("GOAL_SUCCESS_INSTRUCTIONS")}</div>  
+            <div class="GoalSuccessDiv"><textarea placeholder="${this.t("GOAL_SUCCESS_PLACEHOLDER")}"></textarea></div>
             <div class="GoalInstructions"><button class="Button">Save</button></div>
         </div>
         `.trim();
@@ -32,7 +32,7 @@ class GoalPage extends Component {
             "click", () => {this.saveGoal();}
         );
     }
-
+    
     async saveGoal() {
         if(this.validateForm()) {
             let data = this.getData();
@@ -42,7 +42,7 @@ class GoalPage extends Component {
                 method: "POST",
                 body: JSON.stringify(data)
             }
-            let response = await this.app.auth.request(config);
+            let response = await this.request(config);
         }
     }
 

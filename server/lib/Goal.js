@@ -9,9 +9,9 @@ class Goal extends Bread {
         this.metricList = null;
     }
 
-    createNew(user, title, success, metrics) {
-        let entity = new GoalEntity({user: user, title: title, success: success, metrics: metrics});
-        entity = this.repo.add(entity);
+    async createNew(user, title, success, metrics) {
+        let entity = new GoalEntity({user: user, title: title, success: success});
+        entity = await this.repo.add(entity);
         return entity;
     }
 

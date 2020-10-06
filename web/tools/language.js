@@ -110,18 +110,16 @@ let lang = {
 }
 
 class Language {
-  constructor() {
-    //this.default_language = process.env.REACT_APP_DEFAULT_LANGUAGE;
-    this.current_language = this.default_language;
-    //this.default_locale = process.env.REACT_APP_DEFAULT_LOCALE;
-    this.current_locale = this.default_locale;
+  constructor(language, locale) {
+    this.current_language = language;
+    this.current_locale = locale;
     
   }
   setLanguage(language, locale) {
     this.current_language = language;
     this.current_locale = locale;
   }
-  t(code) {
+  translate(code) {
     let ret_string = this.verify(code, this.current_language, this.current_locale);
     if(ret_string === false) {
       ret_string = this.verify(code, this.current_language, this.default_locale);

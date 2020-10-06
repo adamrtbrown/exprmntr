@@ -37,11 +37,6 @@ class GoalRepository extends Repository {
             let query = "INSERT INTO `goals`(`user`, `title`, `success`) SELECT `id`,?,? FROM users WHERE `uid` = ? LIMIT 1";
             let result = await this.db.query(query,[entity.title, entity.success, entity.user]);
             entity.id = result.results.insertId;
-            let metricValues = [];
-            entity.metrics.forEach((metric) => {metricValues.push([entity.id, metric.metric, metric.value]);});
-            query = "INSERT INTO `metrics`(`goal_id`,`description`,`value`) VALUES ?";
-            console.log(metricValues);
-            result = await this.db.query(query, [metricValues]);
             console.log("returning entity.id",entity.id);
             return entity;
         } catch(error) {

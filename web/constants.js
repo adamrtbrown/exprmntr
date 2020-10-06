@@ -1,6 +1,6 @@
-export const FRONTPAGE = "frontpage";
-export const DASHBOARDPAGE = "dashboardpage";
-export const GOALPAGE = "goalpage";
-export const TREEPAGE = "treepage";
-export const EXPERIMENTPAGE = "experimentpage";
+window.FRONT_PAGE = "frontpage";
+window.DASHBOARD_PAGE = "dashboardpage";
+window.GOAL_PAGE = "goalpage";
+window.TREE_PAGE = "treepage";
+window.EXPERIMENT_PAGE = "experimentpage";
 
