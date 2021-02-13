@@ -4,7 +4,6 @@ class Request {
   }
   
   get auth() {
-    console.log("auth", this.authObject);
     if(this.authObject !== null) {
       return this.authObject;
     } 
@@ -27,7 +26,10 @@ class Request {
       config.headers.Authorization = "Bearer " + accessToken;
     }
     
-    let url = config.url;
+    let url = new URL("/" + config.url, env.API_URL);
+    if(config.params) {
+      Object.keys(config.params).forEach(key => url.searchParams.append(key, config.params[key]))
+    }
     console.log("Fetching: ", url, config);
     let response = await fetch(url, config);
     return response;

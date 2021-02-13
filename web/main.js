@@ -11,11 +11,10 @@ window.addEventListener("DOMContentLoaded", (e) => {
         auth : new ABCIAMClient({url: window.env.API_URL}),
         language: new Language("en", "CA"),
     }
-    let app = new App(config);
-    let root = new ExprmntrApp(null, app);
+    let root = new ExprmntrApp(null, {app: new App(config)});
     document.body.appendChild(root.node);
 
-    if(window.env.gApp !== undefined) {window.env.gApp = app};
+    if(window.env.gApp !== undefined) {window.env.gApp = root};
 });
 
 //window.addEventListener("keyup",(e)=>{console.log("key", document.activeElement)});

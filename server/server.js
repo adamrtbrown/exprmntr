@@ -75,9 +75,25 @@ app.post('/goal', async function(req, res){
 });
 
 app.get('/goal/:goal_id', async function(req, res) {
-  console.log("Goal ID:", req.params.goal_id);
   let server = new Server(server_config);
   res.json(await server.getGoal(req));
+  res.end();
+});
+app.get('/goal', async function(req, res) {
+  let server = new Server(server_config);
+  res.json(await server.getGoal(req));
+  res.end();
+});
+
+app.get('/experiment', async function(req, res) {
+  let server = new Server(server_config);
+  res.json(await server.getExperiment(req));
+  res.end();
+});
+app.post('/experiment', async function(req, res) {
+  let server = new Server(server_config);
+  res.json(await server.postExperiment(req));
+  res.end();
 });
 
 app.listen(port, () => console.log(`Listening on ${port}`));

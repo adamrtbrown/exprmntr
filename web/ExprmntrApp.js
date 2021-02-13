@@ -4,6 +4,7 @@ import Nav from "./lib/Components/Header/Nav.js";
 import FrontPage from './lib/Pages/FrontPage.js'
 import DashboardPage from './lib/Pages/DashboardPage.js'
 import GoalPage from "./lib/Pages/GoalPage.js";
+import ExperimentPage from "./lib/Pages/ExperimentPage.js";
 
 class ExprmntrApp extends Component {
     constructor(parent, application) {
@@ -18,11 +19,10 @@ class ExprmntrApp extends Component {
         this.frontPage = new FrontPage(this);
         this.dashboardPage = new DashboardPage(this);
         this.goalPage = new GoalPage(this);
+        this.experimentPage = new ExperimentPage(this);
         this.pageState = FRONT_PAGE;
         this.authObject = null;
         this.currentChildPageNode = null;
-
-        
         
         this.initNode();
     }
@@ -55,6 +55,9 @@ class ExprmntrApp extends Component {
             case GOAL_PAGE:
                 newNode = this.goalPage.node;
                 break;
+            case EXPERIMENT_PAGE:
+                newNode = this.experimentPage.node;
+                break;    
             default:
                 newNode = this.frontPage.node;
                 break;
@@ -63,6 +66,16 @@ class ExprmntrApp extends Component {
             this.node.replaceChild(newNode, this.currentChildPageNode);
             this.currentChildPageNode = newNode;
         }
+    }
+
+    logout() {
+        this.app.auth.logout(true);
+        this.page = FRONT_PAGE;
+        this.app.goals = [];
+        this.dashboardPage.clearGoalElements();
+    }
+    login() {
+        this.dashboardPage.loadGoals()
     }
 }
 export default ExprmntrApp;

@@ -1,11 +1,11 @@
 class Component {
-    constructor(parent, application = null) {
+    constructor(parent, config = {}) {
         /*
         this.testVariableValue = "";
         this.testVariableNode = null;
         */
         this.node = null;
-        this.application = application;
+        this.application = config.app ? config.app : null;
         this.parent = parent;
     }
     /*
@@ -36,6 +36,10 @@ class Component {
             throw new Error("Error: Must create an App.");
         }
         return returnApp;
+    }
+
+    set app(application) {
+        this.application = application;
     }
 
     get root() {

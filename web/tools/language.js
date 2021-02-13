@@ -101,6 +101,84 @@ let lang = {
       CA: "You haven't created a goal yet."
     }
   },
+  "NO_EXPERIMENT" : {
+    context: "",
+    en: {
+      CA: "You haven't created an experiments for this goal."
+    }
+  },
+  "CREATE_EXPERIMENT" : {
+    context: "",
+    en: {
+      CA: "Start an Experiment"
+    }
+  },
+  "EXPERIMENT_TITLE_INPUT" : {
+    context: "",
+    en: {
+      CA: "Title of this experiment"
+    }
+  },
+  "HYPOTHESIS_INSTRUCTION_HEADER" : {
+    context: "",
+    en: {
+      CA: "What is your hypothesis?"
+    }
+  },
+  "HYPOTHESIS_INSTRUCTION" : {
+    context: "",
+    en: {
+      CA: "Taking this action should measurably impact progess towards your goal.  Describe why you're doing this."
+    }
+  },
+  "HYPOTHESIS_PLACEHOLDER" : {
+    context: "",
+    en: {
+      CA: "By running each day I should see an increase in the distance I am able to run over time."
+    }
+  },
+  "METHOD_INSTRUCTION_HEADER" : {
+    context: "",
+    en: {
+      CA: "What is the method?"
+    }
+  },
+  "METHOD_INSTRUCTION" : {
+    context: "",
+    en: {
+      CA: "Describe how someone would perform this experiment on their own.  What steps would one take to elicit measurable results?"
+    }
+  },
+  "METHOD_PLACEHOLDER" : {
+    context: "",
+    en: {
+      CA: "1. Proper warm up and stretching.\n2. Set distance tracker.\n3. Run!\n4. Record measured distance."
+    }
+  },
+  "METRIC_INSTRUCTION_HEADER" : {
+    context: "",
+    en: {
+      CA: "What is measured?"
+    }
+  },
+  "METRIC_INSTRUCTION" : {
+    context: "",
+    en: {
+      CA: "Name the metric you'll use to measure the outcomes of the actions taken.  Consider the point at which you'll consider this experiment a success."
+    }
+  },
+  "METRIC_PLACEHOLDER" : {
+    context: "",
+    en: {
+      CA: "Distance"
+    }
+  },
+  "CANCEL" : {
+    context: "",
+    en: {
+      CA: "cancel"
+    }
+  },
   "LORUM_IPSUM" : {
     context: "",
     en: {

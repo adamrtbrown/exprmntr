@@ -1,5 +1,4 @@
 import Component from "../common/Component.js";
-const ADD_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-3v3c0 .55-.45 1-1 1s-1-.45-1-1v-3H8c-.55 0-1-.45-1-1s.45-1 1-1h3V8c0-.55.45-1 1-1s1 .45 1 1v3h3c.55 0 1 .45 1 1s-.45 1-1 1z"/></svg>`;
 class DashboardPage extends Component{
     constructor(parent) {
         super(parent);
@@ -13,36 +12,59 @@ class DashboardPage extends Component{
     }
 
     init() {
-        this.node.querySelector(".AddGoal").addEventListener("click",() => {this.root.page = GOAL_PAGE;});
+        this.node.querySelector(".AddGoal").addEventListener("click",() => {this.addGoalAction()});
         this.dashGoalContainerNode = this.node.querySelector(".DashGoalContainer");
-        this.loadGoals()
-        this.addGoals();
     }
     
     set goals(goals) {
         this.goalArray = goals;
-        this.addGoals();
+        this.app.goals = goals;
+        this.displayGoals();
     }
     get goals() {
         return this.goalArray;
     }
     
-    async loadGoals() {
+    addGoalAction() {
+        this.root.page = GOAL_PAGE;
+        this.root.goalPage.editMode = true;
+    }
+    async loadGoals(draw) {
         let config = {
-            url: "goals/1",
+            url: "goal",
             method: "GET"
         }
         let response = await this.request(config);
-        this.app.goals = response.goals;
+        let data = await response.json();
+        this.goals = data.goals;
     }
 
-    addGoals() {
+    displayGoals() {
+        this.clearGoalElements();
         if(this.goalArray.length === 0) {
             this.dashGoalContainerNode.querySelector(".NoGoal").style.display = "flex";
         } else {
             this.dashGoalContainerNode.querySelector(".NoGoal").style.display = null;
-
+            this.goals.forEach((goal) => {
+                let newDiv = document.createElement("div");
+                newDiv.innerHTML = goal.title;
+                newDiv.className = "GoalSmall";
+                newDiv.addEventListener("click", (evt) => {this.viewGoal(goal)});
+                this.dashGoalContainerNode.appendChild(newDiv);
+            })
         }
+    }
+    clearGoalElements() {
+        let elements = this.dashGoalContainerNode.querySelectorAll(".GoalSmall");
+        for(let i = 0; i < elements.length; i++) {
+            this.dashGoalContainerNode.removeChild(elements[i]);
+        }
+    }
+    viewGoal(goal) {
+
+        this.root.goalPage.editMode = false;
+        this.root.goalPage.goal = goal;
+        this.root.page = ["goal",goal.id].join("/");
     }
 }
 export default DashboardPage

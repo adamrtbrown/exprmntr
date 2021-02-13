@@ -20,6 +20,7 @@ textarea {
   padding:0.5rem 2rem 0.5rem 2rem;
   border-radius:0.5rem;
   cursor:pointer;
+  margin:1rem;
 }
 
 /* HEADER */ 
@@ -115,13 +116,40 @@ nav > div {
 .ContentPage {
   padding: 1rem;
   display:flex;
+  flex-direction: column;
+}
+.TitleEditBox {
+  font-size:3em;
+  width:100%;
+  box-sizing:border-box;
+  padding:0.5rem;
+  border:none;
+}
+.TextAreaEditBox, .InputEditBox {
+  width:100%;
+  box-sizing:border-box;
+  padding: 0.5em;
+  border:none;
+}
+.Instructions {
+  padding:1rem;
+  background-color: var(--main-color);
+}
+.Clickable {
+  cursor:pointer;
+}
+.Clickable:hover {
+  text-decoration: underline;
+}
+.SmallTitle {
+  margin:1rem;
 }
 /* DASHBOARD PAGE */
 .DashboardPage {
   display: flex;
   flex-direction: column;
 }
-.AddGoal {
+.AddGoal, .AddExperiment {
   display:flex;
   justify-content: center;
   align-items: center;
@@ -131,15 +159,28 @@ nav > div {
   height:2rem;
   cursor:pointer;
 }
-.AddGoal > svg {
+.AddGoal > svg, .AddExperiment > svg {
   fill: var(--text-main-color);
   margin-left:1rem;
 }
 .NoGoal {
   display: none;
 }
-.Goal {
-  flex:1;
+.DashGoalContainer, .ExperimentContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start
+}
+.GoalSmall {
+  display: flex;
+  background: var(--bg-main);
+  justify-content: center;
+  align-items: center;
+  border:1px solid var(--text-main-color);
+  height:5rem;
+  cursor:pointer;
+  margin:1rem;
+  width: 5rem;
 }
 
 /* GOAL PAGE */
@@ -149,27 +190,35 @@ nav > div {
 .GoalPage > div {
   margin: 0.5rem;
 }
-.GoalInstructions {
-  padding:1rem;
-  font-size:1.5em;
-  background-color: var(--main-color);
-}
+
 .GoalTitleDiv {
   flex:1;
 }
-.GoalTitleEdit {
-  font-size:3em;
-  width:100%;
-  box-sizing:border-box;
-  padding:0.5rem;
+
+.GoalTitleDisplay {
+  font-size: var(--font-size-huge);
 }
-.GoalSuccessEdit {
-  width:100%;
-  box-sizing:border-box;
-  padding: 0.5em;
-}
-.GoalSuccessDiv li, .GoalSuccessDiv input {
-  font-size:1.1em;
-  padding:0.1em;
+.GoalSuccessDisplay {
+  font-size: var(--font-size-medium);
 }
 
+.ExperimentSmall {
+  display: flex;
+  background: var(--bg-main);
+  justify-content: center;
+  align-items: center;
+  border:1px solid var(--text-main-color);
+  min-height:5rem;
+  cursor:pointer;
+  margin:1rem;
+  min-width: 5rem;
+  flex-direction: column;
+}
+.ExperimentGraph {
+  background: white;
+  display:flex;
+  width:4rem;
+  height:4rem;
+  margin:1rem;
+  border:1px solid #008
+}

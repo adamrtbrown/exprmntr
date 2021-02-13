@@ -22,8 +22,16 @@ class Goal extends Bread {
     }
 
     readGoal(id) {
+        //todo add security
         let entity = this.repo.read(id);
         return entity;
+    }
+
+    browseGoal(filter) {
+        //todo add security
+        console.log("Browse filter:", filter)
+        let entityList = this.repo.browse(filter);
+        return entityList;
     }
 
     get experiments() {
@@ -50,6 +58,10 @@ class Goal extends Bread {
 
     set client(client) {
         this.repo.client = client;
+    }
+
+    end() {
+        this.repo.db.end();
     }
 
 }

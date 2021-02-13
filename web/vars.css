@@ -17,6 +17,7 @@
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
     --font-size-normal: 1em;
-    --font-size-h2: 1.5em;
-    --font-size-h1: 2em;
+    --font-size-medium: 1.5em;
+    --font-size-big: 2em;
+    --font-size-huge: 4em;
 }

@@ -2,6 +2,7 @@ import Goal from './lib/Goal.js'
 import ABCIAMAppServer from 'ABCIAM';
 import jwt from 'jsonwebtoken';
 import DB from './tools/db.js';
+import Experiment from './lib/Experiment.js';
 
 class Server {
     constructor(server_config) {
@@ -34,7 +35,7 @@ class Server {
             let accessToken = await this.createToken({user: decoded.user}, expiry);
             await this.provisionUser(decoded.user);
             let retvar = {'refreshToken': refreshToken, 'accessToken': accessToken};
-            console.log("Server: Returning getTokens");
+            console.log("Server: Returning getToken");
             return retvar;
         } catch (err) {
             console.log(err.message);
@@ -44,8 +45,9 @@ class Server {
 
     async provisionUser(user) {
         let db = new DB();
-        let query = "REPLACE INTO `users`(`uid`) VALUES (?)";
+        let query = "INSERT IGNORE INTO `users`(`uid`) VALUES (?)";
         let response = await db.query(query, [user]);
+        db.end();
     }
 
     async postToken(req) {
@@ -70,12 +72,22 @@ class Server {
 
     async getGoal(req) {
         let goal = new Goal();
-        if(req.body.id) {
-            let entity = goal.readGoal(req.body.id);
+        let retVar = null;
+        if(req.params.goal_id) {
+            let entity = await goal.readGoal(req.params.goal_id);
+            console.log("Single Goal Entity:", entity);
+            retVar =  {goal: entity};
         } else {
-
+            let user = req.token_claims.user;
+            let filter = {
+                user: user
+            }
+            let entityList = await goal.browseGoal(filter);
+            console.log("Plural Goal Entity:", entityList);
+            retVar =  {goals: entityList};
         }
-        return {id:entity.id, user: entity.user, goal:entity.goal, success:entity.success}
+        goal.end();
+        return retVar;
     }
 
     async postGoal(req) {
@@ -83,6 +95,7 @@ class Server {
         let entity = null;
         let goal = new Goal();
         let user = req.token_claims.user
+        let retVar = null;
         console.log("Post goal:", data)
         try{
             if(data.id) { 
@@ -90,11 +103,51 @@ class Server {
             } else {
                 entity = goal.createNew(user, data.title, data.success);
             }  
-            return {id: entity.id}
+            retVar =  {id: entity.id}
         } catch (err) {
             console.log("There was an error POSTing the goal.");
         }
-        return "error";
+        goal.end();
+        return retVar;
+    }
+    async getExperiment(req) {
+        let experiment = new Experiment();
+        let retVar = null;
+        if(req.params.experiment_id) {
+            let entity = await experiment.read(req.params.experiment_id);
+            console.log("Single experiment Entity:", entity);
+            retVar =  {experiment: entity};
+        } else {
+            let filter = {
+                user: req.token_claims.user,
+                goal: req.body.goal
+            }
+            let entityList = await experiment.browse(filter);
+            console.log("Plural experiment Entity:", entityList);
+            retVar =  {experiments: entityList};
+        }
+        experiment.end();
+        return retVar; 
+    }
+    async postExperiment(req) {
+        let data = req.body;
+        let user = req.token_claims.user;
+        let entity = null;
+        let experiment = new Experiment();
+        let retVar = null;
+        console.log("Post experiment:", data)
+        try{
+            if(data.id) { 
+                entity = experiment.edit(data.id, user, data.goal_id, data.title, data.hypothesis, data.method, data.metric);
+            } else {
+                entity = experiment.create(user, data.goal_id, data.title, data.hypothesis, data.method, data.metric);
+            }  
+            retVar =  {id: entity.id}
+        } catch (err) {
+            console.log("There was an error POSTing the experiment.");
+        }
+        experiment.end();
+        return retVar;
     }
 
     async createToken(claims, expirySeconds) {
@@ -109,12 +162,14 @@ class Server {
             let result = await db.query('SELECT `latest` FROM `signing_keys` LIMIT 1');
             this.signing_key = result.results[0].latest;
         }
+        db.end();
         return this.signing_key;
     }
 
     routeSecurity(route) {
         const routes = [
-            "/goal"
+            "/goal",
+            "/experiment"
         ];
         if( routes.find( (element) => {console.log(String(route).indexOf(element)); return String(route).indexOf(element) !== -1} ) ) {
             return true;

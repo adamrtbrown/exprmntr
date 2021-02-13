@@ -88,17 +88,16 @@ class Account extends Component {
             this.imageIconNode.src = profile.getImageUrl();
             this.node.replaceChild(this.imageIconNode, this.node.firstChild);
         }
+        this.root.login();
     }
     
     logout(e) {
-        console.log("logout");       
+        console.log("logout");   
         if(this.googleLogin.ga) {
             this.googleLogin.signOut();
         }
-        this.app.auth.logout(true);
-        
         this.node.replaceChild(this.accountIconNode, this.node.firstChild);
-        this.root.page = FRONT_PAGE;
+        this.root.logout();
         setTimeout(() => {this.hideOptions();}, 1);
     }
     setupFederatedOptions() {

@@ -7,13 +7,18 @@ class GoalRepository extends Repository {
         this.user_id = null;
         this.uid = null;
     }
-    browse(filter) {
-        filter = {filter: filter};
-        return 
+    async browse(filter) {
+        let entityList = [];
+        if(filter.user) {
+            let query = "SELECT goals.id, users.uid, goals.title, goals.success FROM goals LEFT JOIN users on users.id = goals.user WHERE users.uid = ?";
+            let result = await this.db.query(query, [filter.user]);
+            result.results.forEach((item) => {entityList.push(new GoalEntity({id: item.id, user: item.uid, title: item.title, success: item.success}));});
+        }
+        return entityList;
     }
     async read(id) {
         try {
-            let query = "SELECT goals.id, users.uid, goals.title, goals.success FROM goals LEFT JOIN users on users.id = goals.user WHERE goals.id = ? LIMIT 1";
+            let query = "SELECT goals.id, users.uid as user, goals.title, goals.success FROM goals LEFT JOIN users on users.id = goals.user WHERE goals.id = ? LIMIT 1";
             let result = await this.db.query(query, [id]);
             return new GoalEntity(result.results[0]);
         } catch (error) {

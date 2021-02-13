@@ -60,6 +60,17 @@ class DB {
       });
     });
   }
+
+  end() {
+    try {
+      if(this.conn) {
+        this.conn.end();
+      }
+    }
+    catch(err) {
+      console.log("DB closing error:", err.message);
+    }
+  }
 }
 
-export default DB;
+export default DB;d
